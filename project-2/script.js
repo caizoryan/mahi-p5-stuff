@@ -4,6 +4,7 @@ let slider;
 let points = [];
 let font
 let slidervalue = 20
+let mul = 1
 
 function preload() {
 	font = loadFont("./FnFontVF.ttf")
@@ -28,7 +29,7 @@ function updateText() {
 	slidervalue = slider.value()
 	console.log(slidervalue)
 
-	points = font.textToPoints(userText, 50 + random() * slidervalue * 20, height / 2 + random() * slidervalue * 20, 200, {
+	points = font.textToPoints(userText, 50 + random() * slidervalue * 20 * mul, height / 2 + random() * slidervalue * 20 * mul, 200, {
 		sampleFactor: slidervalue,
 		simplifyThreshold: 0
 	});
@@ -40,7 +41,6 @@ function draw() {
 	fill(255);
 	noStroke();
 
-	// Update points if slider changes
 	if (slider.value() !== lastSampleFactor) {
 		points = font.textToPoints(userText, 50, height / 2, 200, {
 			sampleFactor: slider.value(),
@@ -52,6 +52,10 @@ function draw() {
 	for (let pt of points) {
 		ellipse(pt.x, pt.y, 5, 5);
 	}
+}
+
+function mousePressed() {
+	mul += .1
 }
 
 let lastSampleFactor = 0.2;
