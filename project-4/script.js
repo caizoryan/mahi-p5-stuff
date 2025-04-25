@@ -8,8 +8,26 @@ let sound2 = new Audio("./drum.mp3")
 let sound3 = new Audio("./disc.mp3")
 let sounds = [sound1, sound2, sound3]
 
+let image1
+let image2
+let image3
+let images = []
+
+let curimage
+let size = 80
+
+function preload() {
+	image1 = loadImage("./bg1.jpg")
+	image2 = loadImage("./bg2.jpg")
+	image3 = loadImage("./bg3.jpg")
+	images.push(image1)
+	images.push(image2)
+	images.push(image3)
+}
+
 function setup() {
-	createCanvas(800, 8000);
+	createCanvas(800, 2000);
+	curimage = image1
 	colors.push(
 		color(random(255), random(255), random(255)),
 		color(random(255), random(255), random(255)),
@@ -52,9 +70,15 @@ function setup() {
 	window.scrollTo(0, document.body.scrollHeight);
 }
 
+
 function draw() {
 	// Draw pixelated background
-	background(30);
+	background(0);
+
+	for (let i = 0; i < height; i += size) {
+		image(curimage, 0, i, size, size)
+		image(curimage, width - size, i, size, size)
+	}
 
 	// Ball logic
 	noStroke();
@@ -70,6 +94,7 @@ function draw() {
 			let index = floor(random(0, 3))
 			ball.color = colors[index]
 			let sound = sounds[index]
+			curimage = images[index]
 			sound.currentTime = 0
 			sound.play()
 		}
